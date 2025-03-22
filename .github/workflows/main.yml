@@ -31,7 +31,7 @@ jobs:
 
       - name: Build and Push Client Image
         run: |
-          docker build -t rahim653/go-react-client:latest -f client/Dockerfile .
+          docker build -t rahim653/go-react-client:latest -f client/Dockerfile client/
           docker push rahim653/go-react-client:latest
 
   deploy:
