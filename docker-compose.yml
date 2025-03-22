@@ -1,0 +1,83 @@
+# version: '3.8'
+
+# services:
+#   client:
+#     image: node:18-alpine # Use a prebuilt Node.js image
+#     container_name: client
+#     restart: always
+#     working_dir: /app
+#     volumes:
+#       - ./client:/app
+#       - /app/node_modules
+#     ports:
+#       - "5173:5173"  # Vite default port
+#     environment:
+#       - CHOKIDAR_USEPOLLING=true
+#     command: ["/bin/sh", "-c", "npm install && npm run dev -- --host"]
+
+#   backend:
+#     build: 
+#       context: .  # Build from the root directory where Dockerfile is located
+#     container_name: backend
+#     restart: always
+#     ports:
+#       - "5000:5000"
+#     # environment:
+#     #   - PORT=5000
+    
+#     env_file:
+#       - .env  # Load environment variables from .env file
+#     depends_on:
+#       - mongo
+#     volumes:
+#       - ./.env:/app/.env  # Ensure .env is available inside the container
+#     command: ["air"]
+
+#   mongo:
+#     image: mongo:latest
+#     container_name: mongo
+#     restart: always
+#     ports:
+#       - "27017:27017"
+#     volumes:
+#       - mongo_data:/data/db
+
+# volumes:
+#   mongo_data:
+
+version: '3.8'
+
+services:
+  client:
+    build: ./client
+    container_name: client
+    restart: always
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+
+  backend:
+    build:
+      context: .
+    container_name: backend
+    restart: always
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env  # Load environment variables
+    depends_on:
+      - mongo
+    command: ["air"]
+
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:
