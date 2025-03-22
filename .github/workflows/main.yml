@@ -27,7 +27,7 @@ jobs:
         run: |
           echo "${{ secrets.ENV_FILE }}" > .env # Create .env file from secret
           docker build --build-arg ENV_FILE="$(cat .env)" -t rahim653/go-react-backend:latest -f Dockerfile .
-          docker push rahim653/go-react:latest
+          docker push rahim653/go-react-backend:latest
 
       - name: Build and Push Client Image
         run: |
