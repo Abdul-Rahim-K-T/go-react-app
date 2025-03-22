@@ -63,7 +63,7 @@ COPY --from=builder /go/bin/air /usr/local/bin/air
 RUN chmod +x /usr/local/bin/air
 
 # Copy .env file
-COPY .env .env
+COPY --chown=appuser:appgroup .env .env
 
 EXPOSE 5000
 
