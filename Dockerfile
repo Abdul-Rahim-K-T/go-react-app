@@ -38,6 +38,9 @@ FROM golang:1.22.1 AS builder
 
 WORKDIR /app
 
+# Accept environment file as a build argument
+ARG ENV_FILE
+
 # Copy go.mod and go.sum first to cache dependencies
 COPY go.mod go.sum ./
 RUN go mod download
@@ -62,9 +65,8 @@ COPY --from=builder /go/bin/air /usr/local/bin/air
 # Set correct permissions for Air
 RUN chmod +x /usr/local/bin/air
 
-# Copy .env file
-COPY --chown=appuser:appgroup .env .env
 
+# Expose port
 EXPOSE 5000
 
 CMD ["air", "-c", "air.toml"]
